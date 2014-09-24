@@ -365,8 +365,8 @@ console.log("asfd");
         {
             Svenangle = Math.abs(y-tagpro.players[tagpro.playerId].y) / Math.abs(x-tagpro.players[tagpro.playerId].x);
             
-            var timey = (Math.abs(self().ly )* 0.025 );
-            var timex = (Math.abs(self().lx )* 0.025 );
+            var timey = Math.abs(self().ly )/ 0.025 ;
+            var timex = Math.abs(self().lx )/ 0.025 ;
             var streckey = 0.5 * 0.025 * (timey * timey);
             var streckex = 0.5 * 0.025 * (timex * timex);
             
