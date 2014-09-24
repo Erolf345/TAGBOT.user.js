@@ -10,7 +10,7 @@
 // @version       1.0
 // ==/UserScript==
 tagpro.ready(function(){
-    var Svencount = 1;
+    
     /*var easystar = new EasyStar.js();
 var grid = [[0,0,1,0,0],
             [0,0,1,0,0],
@@ -265,104 +265,158 @@ console.log("asfd");
             }
         }
     }
-    function ai_goto(x,y,v){
-        if (x == tagpro.players[tagpro.playerId].x && y == tagpro.players[tagpro.playerId].y)
+    
+    
+    
+    function brake(x,y,streckex,streckey,Svenangle)
+    {
+        if ( streckex >= Math.abs(x - self().x))
         {
-        ai_releaseUp();
-        ai_releaseDown();
-        ai_releaseLeft();
-        ai_releaseRight();
+            console.log("brakex");
+            if (x > self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle )
+            {
+                
+                if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                {
+                    ai_releaseUp();
+                    ai_releaseDown();
+                }
+                ai_goLeft();
+            }
+            if (x < self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle)
+            {
+                if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                {
+                    ai_releaseDown();
+                    ai_releaseUp();
+                }
+                ai_goRight();
+            }
+        }
+        if ( streckey >= Math.abs(y - self().y))
+        {
+            console.log("brakey");
+            if (y < self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
+            {
+                if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                {
+                    ai_releaseLeft();
+                    ai_releaseRight();
+                }
+                ai_goDown();
+            }
+            if (y > self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
+            {
+                if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                {
+                    ai_releaseLeft();
+                    ai_releaseRight();
+                }
+                ai_goUp();
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    function ai_goto(x,y,v){
+        /* if((self().lx == 0 || self().ly == 0) && self().dead != true)
+        {
+            
+            ai_pressUp();
+            ai_pressDown();
+            ai_pressLeft();
+            ai_pressRight();
+            ai_releaseUp();
+            ai_releaseDown();
+            ai_releaseLeft();
+            ai_releaseRight();   
+        }
+        */
+        
+        if (x == tagpro.players[tagpro.playerId].x && y == tagpro.players[tagpro.playerId].y && self().up != false && self().down != false && self().right != false && self().left != false)
+        {
+            ai_releaseUp();
+            ai_releaseDown();
+            ai_releaseLeft();
+            ai_releaseRight();
         }
         if (x != tagpro.players[tagpro.playerId].x && y != tagpro.players[tagpro.playerId].y)
         {
-        var Svenangle = Math.abs(y-tagpro.players[tagpro.playerId].y) / Math.abs(x-tagpro.players[tagpro.playerId].x);
-        
-        var timey = Math.abs(self().ly * 100)/90;
-        var timex = Math.abs(self().lx * 100)/90 ;
-        var streckey = 0.5 * 90 * (timey * timey);
-        var streckex = 0.5 * 90 * (timex * timex);
-        
-        if (x > self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle )
-        {
+            Svenangle = Math.abs(y-tagpro.players[tagpro.playerId].y) / Math.abs(x-tagpro.players[tagpro.playerId].x);
+            
+            var timey = (Math.abs(self().ly * 1000 )* 0.025 * 1000)/1000;
+            var timex = (Math.abs(self().lx * 1000 )* 0.025 * 1000)/1000;
+            var streckey = 0.5 * 0.025 * (timey * timey);
+            var streckex = 0.5 * 0.025 * (timex * timex);
             
             
-            if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
-                
-            {
-                ai_releaseUp();
-                ai_releaseDown();
-            }
             
-            if(Math.abs(x - tagpro.players[tagpro.playerId].x) > streckex)
+            if ( streckex < Math.abs(x - self().x))
             {
-                ai_goRight();
+                if (x > self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle )
+                {
+                    if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                    {
+                        ai_releaseUp();
+                        ai_releaseDown();
+                    }
+                    ai_goRight();
+                }
+                if (x < self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle)
+                {
+                    if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                    {
+                        ai_releaseDown();
+                        ai_releaseUp();
+                    }
+                    ai_goLeft();
+                }
             }
-            if(Math.abs(x - tagpro.players[tagpro.playerId].x) <= streckex)
+            if ( streckey < Math.abs(y - self().y))
             {
-                ai_goLeft();
+                if (y < self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
+                {
+                    if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                    {
+                        ai_releaseLeft();
+                        ai_releaseRight();
+                    }
+                    ai_goUp();
+                }
+                if (y > self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
+                {
+                    if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
+                    {
+                        ai_releaseLeft();
+                        ai_releaseRight();
+                    }
+                    ai_goDown();
+                    
+                }
             }
+            brake(x,y,streckex,streckey,Svenangle);
         }
-        if (x < self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle)
-        {
-            
-            if( Math.abs(x - tagpro.players[tagpro.playerId].x) >  Math.abs(y - tagpro.players[tagpro.playerId].y))
-                
-            {
-                ai_releaseDown();
-                ai_releaseUp();
-            }
-            
-           
-            if(Math.abs(x - tagpro.players[tagpro.playerId].x) > streckex)
-            {
-                ai_goLeft();
-            }
-            if(Math.abs(x - tagpro.players[tagpro.playerId].x) <= streckex)
-            {
-                ai_goRight();
-            }
-        }
-        
-        if (y < self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
-        {
-            
-            if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
-                
-            {
-                ai_releaseLeft();
-                ai_releaseRight();
-            }
-            
-            if(Math.abs(y - tagpro.players[tagpro.playerId].y) > streckey)
-            {
-                ai_goUp();
-            }
-            if(Math.abs(y - tagpro.players[tagpro.playerId].y) <= streckey)
-            {
-                ai_goDown();
-            }
-        }
-        if (y > self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
-        {
-            
-            if( Math.abs(x - tagpro.players[tagpro.playerId].x) <  Math.abs(y - tagpro.players[tagpro.playerId].y))
-                
-            {
-                ai_releaseLeft();
-                ai_releaseRight();
-            }
-            
-             if(Math.abs(y - tagpro.players[tagpro.playerId].y) > streckey)
-            {
-                ai_goDown();
-            }
-            if(Math.abs(y - tagpro.players[tagpro.playerId].y) <= streckey)
-            {
-                ai_goUp();
-            }
-        }
-        
-    }
     }
     
     setInterval(function(){ai_goto( 471,347,12);}, 30);
