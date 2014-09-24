@@ -266,7 +266,21 @@ console.log("asfd");
         }
     }
     function ai_goto(x,y,v){
+        if (x == tagpro.players[tagpro.playerId].x && y == tagpro.players[tagpro.playerId].y)
+        {
+        ai_releaseUp();
+        ai_releaseDown();
+        ai_releaseLeft();
+        ai_releaseRight();
+        }
+        if (x != tagpro.players[tagpro.playerId].x && y != tagpro.players[tagpro.playerId].y)
+        {
         var Svenangle = Math.abs(y-tagpro.players[tagpro.playerId].y) / Math.abs(x-tagpro.players[tagpro.playerId].x);
+        
+        var timey = Math.abs(self().ly * 100)/90;
+        var timex = Math.abs(self().lx * 100)/90 ;
+        var streckey = 0.5 * 90 * (timey * timey);
+        var streckex = 0.5 * 90 * (timex * timex);
         
         if (x > self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle )
         {
@@ -279,9 +293,14 @@ console.log("asfd");
                 ai_releaseDown();
             }
             
-            
-            ai_goRight();
-            
+            if(Math.abs(x - tagpro.players[tagpro.playerId].x) > streckex)
+            {
+                ai_goRight();
+            }
+            if(Math.abs(x - tagpro.players[tagpro.playerId].x) <= streckex)
+            {
+                ai_goLeft();
+            }
         }
         if (x < self().x && Math.abs(self().ly)/Math.abs(self().lx) > Svenangle)
         {
@@ -293,7 +312,15 @@ console.log("asfd");
                 ai_releaseUp();
             }
             
-            ai_goLeft();
+           
+            if(Math.abs(x - tagpro.players[tagpro.playerId].x) > streckex)
+            {
+                ai_goLeft();
+            }
+            if(Math.abs(x - tagpro.players[tagpro.playerId].x) <= streckex)
+            {
+                ai_goRight();
+            }
         }
         
         if (y < self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
@@ -306,7 +333,14 @@ console.log("asfd");
                 ai_releaseRight();
             }
             
-            ai_goUp();
+            if(Math.abs(y - tagpro.players[tagpro.playerId].y) > streckey)
+            {
+                ai_goUp();
+            }
+            if(Math.abs(y - tagpro.players[tagpro.playerId].y) <= streckey)
+            {
+                ai_goDown();
+            }
         }
         if (y > self().y && Math.abs(self().ly)/Math.abs(self().lx) < Svenangle)
         {
@@ -318,10 +352,18 @@ console.log("asfd");
                 ai_releaseRight();
             }
             
-            ai_goDown();
+             if(Math.abs(y - tagpro.players[tagpro.playerId].y) > streckey)
+            {
+                ai_goDown();
+            }
+            if(Math.abs(y - tagpro.players[tagpro.playerId].y) <= streckey)
+            {
+                ai_goUp();
+            }
         }
         
     }
+    }
     
-    setInterval(function(){ ai_goto(enemy_fc().x,enemy_fc().y,12);}, 30);
+    setInterval(function(){ai_goto( 471,347,12);}, 30);
 });
